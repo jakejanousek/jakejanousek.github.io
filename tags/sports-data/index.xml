@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Jake Janousek&#39;s GitHub Site</title>
-    <link>/post/</link>
-    <description>Recent content in Posts on Jake Janousek&#39;s GitHub Site</description>
+    <title>Sports Data on Jake Janousek&#39;s GitHub Site</title>
+    <link>/tags/sports-data/</link>
+    <description>Recent content in Sports Data on Jake Janousek&#39;s GitHub Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 04 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 04 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/sports-data/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How did the Blue Bloods fare from the 2020 season to 2021?</title>
       <link>/post/2021/04/04/how-did-the-blue-bloods-fare-from-the-2020-season-to-2021/</link>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>How would Nebraska Football stack against the Big 12 if they never left? - Jake Janousek&#39;s GitHub Site</title>
+    <meta property="og:title" content="How would Nebraska Football stack against the Big 12 if they never left? - Jake Janousek&#39;s GitHub Site">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="With the recent events that Nebraska Football has had to endure with the Big Ten Conference in the recent year many fans have come out to say Nebraska should move on. Many fans have wanted Nebraska to &amp;hellip;">
+      <meta property="og:description" content="With the recent events that Nebraska Football has had to endure with the Big Ten Conference in the recent year many fans have come out to say Nebraska should move on. Many fans have wanted Nebraska to &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="post">
+    <header class="masthead">
+      <h1><a href="/">Jake Janousek&#39;s GitHub Site</a></h1>
+
+<p class="tagline">Jake Janousek&#39;s Data Analysis Blog</p>
+
+      <nav class="menu">
+  <input id="menu-check" type="checkbox" hidden/>
+  <label id="menu-label" for="menu-check" class="unselectable" hidden>
+    <span class="icon close-icon">✕</span>
+    <span class="icon open-icon">☰</span>
+    <span class="text">Menu</span>
+  </label>
+  <ul>
+  
+  
+  <li><a href="/about/">About</a></li>
+  
+  <li><a href="https://github.com/jakejanousek">GitHub</a></li>
+  
+  <li><a href="https://twitter.com/JakeJanousek">Twitter</a></li>
+  
+  <li><a href="/tags/">Tags</a></li>
+  
+  <li><a href="/index.xml">Subscribe</a></li>
+  
+  
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>How would Nebraska Football stack against the Big 12 if they never left?</h1>
+
+<h3>Jacob Janousek
+  /  2021-04-25</h3>
+<hr>
+
+
+      </header>
+
+
+
+
+<script src="/post/2021/04/25/how-would-nebraska-football-stack-against-the-big-12-if-they-never-left/index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>With the recent events that Nebraska Football has had to endure with the Big Ten Conference in the recent year many fans have come out to say Nebraska should move on. Many fans have wanted Nebraska to maybe go back to that old friend down the street, the Big 12 Conference. Nebraska has been out of the Big 12 for almost a decade and it would be cool to reunite with their old rivals. Just how would Nebraska do in the Big 12, matter of fact how would they be if they never left?
+Let’s dive into the numbers.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</code></pre>
+<pre><code>## v ggplot2 3.3.3     v purrr   0.3.4
+## v tibble  3.0.5     v dplyr   1.0.3
+## v tidyr   1.1.2     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.1</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(cowplot)</code></pre>
+<pre><code>## Warning: package &#39;cowplot&#39; was built under R version 4.0.4</code></pre>
+<pre class="r"><code>library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre class="r"><code>library(ggalt)</code></pre>
+<pre><code>## Warning: package &#39;ggalt&#39; was built under R version 4.0.4</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;ggalt&#39;:
+##   method                  from   
+##   grid.draw.absoluteGrob  ggplot2
+##   grobHeight.absoluteGrob ggplot2
+##   grobWidth.absoluteGrob  ggplot2
+##   grobX.absoluteGrob      ggplot2
+##   grobY.absoluteGrob      ggplot2</code></pre>
+<p>The data set I chose to use was one where we can look at each year that Nebraska has been out of the Big 12 and stick them in to it and look at stats with how the would compare.</p>
+<pre class="r"><code>football1120 &lt;- read_csv(&quot;data/footballlogs1120.csv&quot;)</code></pre>
+<pre><code>## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   .default = col_double(),
+##   Date = col_character(),
+##   HomeAway = col_character(),
+##   Opponent = col_character(),
+##   Result = col_character(),
+##   TeamFull = col_character(),
+##   TeamURL = col_character(),
+##   Outcome = col_character(),
+##   Team = col_character(),
+##   Conference = col_character()
+## )
+## i Use `spec()` for the full column specifications.</code></pre>
+<pre class="r"><code>newfootball1120 &lt;- football1120 %&gt;% separate(Result, into=c(&quot;Outcome&quot;, &quot;Score&quot;), sep=&quot; &quot;) %&gt;% 
+  mutate(Score=gsub(&quot;\\(&quot;,&quot;&quot;,Score)) %&gt;% 
+  mutate(Score=gsub(&quot;)&quot;,&quot;&quot;, Score)) %&gt;% 
+  separate(Score, into=c(&quot;TeamScore&quot;, &quot;OpponentScore&quot;), sep=&quot;-&quot;)</code></pre>
+<pre class="r"><code>NebraskaBig12 &lt;- newfootball1120 %&gt;% 
+  filter(Conference == &quot;Big 12 Conference&quot; | Team == &quot;Nebraska&quot;)</code></pre>
+<pre class="r"><code>NebraskaBig12 &lt;- NebraskaBig12 %&gt;% 
+  mutate_at(vars(TeamScore,OpponentScore),as.numeric)</code></pre>
+<p>The first thing I would like to look at is how Nebraska stacks up against the Big 12 in Offensive points per a game and Defensive points per game (points given up per game). Looking at the last decadd at this I want to see where Nebraska would be stronger in the Big 12.</p>
+<pre class="r"><code> OffensivePPG &lt;- NebraskaBig12 %&gt;% 
+  group_by(Team) %&gt;% 
+  summarise(oppg = mean(TeamScore)) %&gt;% 
+  arrange(desc(oppg))</code></pre>
+<pre class="r"><code> DefensivePPG &lt;- NebraskaBig12 %&gt;% 
+  group_by(Team) %&gt;% 
+  summarise(dppg = mean(OpponentScore)) %&gt;% 
+  arrange(-desc(dppg))</code></pre>
+<pre class="r"><code>baroppg &lt;- ggplot() +
+  geom_bar(data= OffensivePPG, aes(x = reorder(Team, oppg), weight = oppg)) + 
+  scale_y_continuous(labels = comma) +
+  labs(title = &quot;Where does Nebraska place on both ends of the ball in the Big 12?&quot;, 
+       subtitle = &quot;Nebraska would be a top defenseive team but lackluster on offense&quot;,
+       x = &quot;Team&quot;, 
+       y = &quot;Offensive PPG&quot;,
+       caption = &quot;&quot;) +                          
+  theme_minimal() +
+  coord_flip() +
+  theme(
+    title = element_text(color = &quot;red&quot;, size = 11, face = &#39;bold&#39;),
+    panel.border = element_rect(linetype = &quot;dashed&quot;, fill = NA),
+    panel.grid.major = element_line(colour = &quot;red&quot;),
+    axis.text = element_text(color = &quot;red&quot;))</code></pre>
+<pre class="r"><code>bardppg &lt;- ggplot() +
+  geom_bar(data= DefensivePPG, aes(x = reorder(Team, -dppg), weight = dppg)) + 
+  scale_y_continuous(labels = comma) +
+  labs(title = &quot;&quot;,
+       subtitle = &quot;&quot;,
+       x = &quot;Team&quot;, 
+       y = &quot;Defensive PPG&quot;,
+       caption = &quot;Source: Sports-Reference | by Jacob Janousek&quot;)+                          
+  theme_minimal() +
+  coord_flip() +
+  theme(
+    title = element_text(color = &quot;red&quot;, size = 11, face = &#39;bold&#39;),
+    panel.border = element_rect(linetype = &quot;dashed&quot;, fill = NA),
+    panel.grid.major = element_line(colour = &quot;red&quot;),
+    axis.text = element_text(color = &quot;red&quot;))</code></pre>
+<pre class="r"><code>plot_grid(baroppg, bardppg)</code></pre>
+<p><img src="/post/2021/04/25/how-would-nebraska-football-stack-against-the-big-12-if-they-never-left/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+Nebraska looks to be very middle of the pack on the Defensive side of the ball with being 5th. Offense is another story though. Nebraska would finish 9th out of 11 teams in Offensive points per game. Nebraska is down there with Iowa State and Kansas, teams who have not had much success in the past decade, especially Kansas who has been a laughing stock in the Big 12, whereas Iowa State has been able to gain momentum towards the end of this decade. Overall Nebraska does not want to be that close to the bottom in any conference. Since Offense seems to be a struggle and that is one thing the Big 12 is known for lets take a deeper look.
+I now want to where Nebraska ranks in total offense and look at where they favor their offensive production from within rushing and passing.</p>
+<pre class="r"><code>yards &lt;- NebraskaBig12 %&gt;% 
+  group_by(Team) %&gt;%
+  summarise(
+  AveragePassingYards = mean(PassingYds),
+  AverageRushingYards = mean(RushingYds))</code></pre>
+<pre class="r"><code>yards %&gt;% 
+  pivot_longer(
+    cols=starts_with(&quot;Average&quot;), 
+    names_to=&quot;Type&quot;, 
+    values_to=&quot;Yards&quot;) -&gt; yardswide</code></pre>
+<pre class="r"><code>ggplot(yardswide, aes(x=reorder(Team, Yards), weight=Yards, fill=Type)) + 
+  geom_bar() + 
+  coord_flip() +
+  labs(
+    x = &quot;Team&quot;,
+    y = &quot;Total Offensive Yards&quot;,
+    title = &quot;Since Offense is a struggle let&#39;s take a deepr look at where Nebraska is&quot;,
+    subtitle = &quot;Nebraska shows to be low, and struggle in the Big 12&#39;s top stat, Passing&quot;,
+    source = &quot;Source: Sports-Reference | by Jacob Janousek&quot;
+  ) +
+   theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 11),
+    axis.title = element_text(size = 9),
+    panel.grid.minor = element_blank()
+  )</code></pre>
+<p><img src="/post/2021/04/25/how-would-nebraska-football-stack-against-the-big-12-if-they-never-left/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+Nebraska again is in the lower half placing 7th and barely edged out Texas. The main thing to notice is look at average passing yards per game and that is a huge stat in the Big 12. Most of their production comes from passing.Nebraska has a very even attack but their passing yards per a game are more comparable to the two lowest teams in total offense, Kansas and Kansas State.
+Now I want to take a deeper look at passing and just see how efficient Nebraska is compared to the Big 12 at completing catches.</p>
+<pre class="r"><code>PassingPercent &lt;- NebraskaBig12 %&gt;% 
+  group_by(Team) %&gt;% 
+  summarise(ppct = mean(PassingPct)) %&gt;% 
+  arrange(desc(ppct))</code></pre>
+<pre class="r"><code>nu &lt;- PassingPercent %&gt;% filter(Team == &quot;Nebraska&quot;)</code></pre>
+<pre class="r"><code>ggplot() + 
+  geom_lollipop(
+    data=PassingPercent, 
+    aes(y=reorder(Team, ppct), x=ppct), 
+    horizontal = TRUE
+    ) + 
+  geom_lollipop(
+    data=nu,
+    aes(y=Team, x=ppct),
+    horizontal = TRUE,
+    color = &quot;red&quot;
+  ) + 
+  theme_minimal() + 
+  labs(title = &quot;Since passing is another lower stat for Nebraksa where do they stack up percentage wise&quot;,
+       subtitle = &quot;Nebraska&#39;s inability to complete passes would again cause them problems in the Big 12&quot;,
+       y = &quot;Team&quot;,
+       x = &quot;Passing Percentage&quot;,
+       source = &quot;Source: Sports-Reference | by Jacob Janousek&quot;)</code></pre>
+<p><img src="/post/2021/04/25/how-would-nebraska-football-stack-against-the-big-12-if-they-never-left/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+Again Nebraska looks to be lower. Being at 10th in the conference in Passing Percentage Nebraska won’t be as efficient other teams at throwing the football.
+In conclusion, With Nebraska being in the lower half in offense, passing yards, and being less efficient as the other teams at passing it the Big 12 may not be a good fit for Nebraska. Offense and Passing for the Big 12 are huge and crucial to be successful in that and looking at how Nebraska has played in the past decade since they left they are not as successful as the other teams.
+When us Nebraska Football fans want us to be back in the Big 12 you need to look a the numbers not just think of it from a want stand-point. According to my data I don’t think Nebraska would fine success and would most likely be a bottom half team and be the same or even worse with them in the Big Ten.</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/post/2021/04/04/how-did-the-blue-bloods-fare-from-the-2020-season-to-2021/">How did the Blue Bloods fare from the 2020 season to 2021?</a></span>
+  <span class="nav-next"></span>
+</nav>
+
+
+
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://yihui.name">Jake Janousek</a> 2021 | <a href="https://github.com/jakejanousek">Github</a> | <a href="https://twitter.com/JakeJanousek">Twitter</a></div>
+  
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

@@ -121,7 +121,7 @@ Let’s dive into the numbers.</p>
 ##   grobWidth.absoluteGrob  ggplot2
 ##   grobX.absoluteGrob      ggplot2
 ##   grobY.absoluteGrob      ggplot2</code></pre>
-<p>The data set I chose to use was one where we can look at each year that Nebraska has been out of the Big 12 and stick them in to it and look at stats with how the would compare.</p>
+<p>The data set I chose to use was one where we can look at each year that Nebraska has been out of the Big 12 and stick them in to it and look at stats with how they would compare.</p>
 <pre class="r"><code>football1120 &lt;- read_csv(&quot;data/footballlogs1120.csv&quot;)</code></pre>
 <pre><code>## 
 ## -- Column specification --------------------------------------------------------
@@ -146,7 +146,7 @@ Let’s dive into the numbers.</p>
   filter(Conference == &quot;Big 12 Conference&quot; | Team == &quot;Nebraska&quot;)</code></pre>
 <pre class="r"><code>NebraskaBig12 &lt;- NebraskaBig12 %&gt;% 
   mutate_at(vars(TeamScore,OpponentScore),as.numeric)</code></pre>
-<p>The first thing I would like to look at is how Nebraska stacks up against the Big 12 in Offensive points per a game and Defensive points per game (points given up per game). Looking at the last decadd at this I want to see where Nebraska would be stronger in the Big 12.</p>
+<p>The first thing I would like to look at is how Nebraska stacks up against the Big 12 in Offensive points per a game and Defensive points per game (points given up per game). Looking at the last decade at this I want to see where Nebraska would be stronger in the Big 12.</p>
 <pre class="r"><code> OffensivePPG &lt;- NebraskaBig12 %&gt;% 
   group_by(Team) %&gt;% 
   summarise(oppg = mean(TeamScore)) %&gt;% 
@@ -188,7 +188,7 @@ Let’s dive into the numbers.</p>
 <pre class="r"><code>plot_grid(baroppg, bardppg)</code></pre>
 <p><img src="/post/2021/04/25/how-would-nebraska-football-stack-against-the-big-12-if-they-never-left/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
 Nebraska looks to be very middle of the pack on the Defensive side of the ball with being 5th. Offense is another story though. Nebraska would finish 9th out of 11 teams in Offensive points per game. Nebraska is down there with Iowa State and Kansas, teams who have not had much success in the past decade, especially Kansas who has been a laughing stock in the Big 12, whereas Iowa State has been able to gain momentum towards the end of this decade. Overall Nebraska does not want to be that close to the bottom in any conference. Since Offense seems to be a struggle and that is one thing the Big 12 is known for lets take a deeper look.
-I now want to where Nebraska ranks in total offense and look at where they favor their offensive production from within rushing and passing.</p>
+I now want to see where Nebraska ranks in total offense and look at where they favor their offensive production from within rushing and passing.</p>
 <pre class="r"><code>yards &lt;- NebraskaBig12 %&gt;% 
   group_by(Team) %&gt;%
   summarise(
@@ -243,9 +243,9 @@ Now I want to take a deeper look at passing and just see how efficient Nebraska 
        x = &quot;Passing Percentage&quot;,
        source = &quot;Source: Sports-Reference | by Jacob Janousek&quot;)</code></pre>
 <p><img src="/post/2021/04/25/how-would-nebraska-football-stack-against-the-big-12-if-they-never-left/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
-Again Nebraska looks to be lower. Being at 10th in the conference in Passing Percentage Nebraska won’t be as efficient other teams at throwing the football.
+Again Nebraska looks to be lower. Being at 10th in the conference in Passing Percentage Nebraska won’t be as efficient as other teams at throwing the football.
 In conclusion, With Nebraska being in the lower half in offense, passing yards, and being less efficient as the other teams at passing it the Big 12 may not be a good fit for Nebraska. Offense and Passing for the Big 12 are huge and crucial to be successful in that and looking at how Nebraska has played in the past decade since they left they are not as successful as the other teams.
-When us Nebraska Football fans want us to be back in the Big 12 you need to look a the numbers not just think of it from a want stand-point. According to my data I don’t think Nebraska would fine success and would most likely be a bottom half team and be the same or even worse with them in the Big Ten.</p>
+When us Nebraska Football fans want us to be back in the Big 12 you need to look a the numbers not just think of it from a want stand-point. According to my data I don’t think Nebraska would fine success and would most likely be a bottom half team and be the same or even worse than they are now in the Big Ten</p>
 
 
   <footer>
